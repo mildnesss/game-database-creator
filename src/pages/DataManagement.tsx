@@ -56,7 +56,7 @@ const DataManagement = () => {
   };
 
   const handleDeleteGame = (id: number) => {
-    setGames(games.filter((g) => g.id !== id));
+    setGamesData(gamesData.filter((g) => g.id !== id));
   };
 
   const handleSaveDeveloper = (developer: Developer) => {
@@ -72,7 +72,7 @@ const DataManagement = () => {
   };
 
   const handleDeleteDeveloper = (id: number) => {
-    setDevelopers(developers.filter((d) => d.id !== id));
+    setDevelopersData(developersData.filter((d) => d.id !== id));
   };
 
   const handleSavePublisher = (publisher: Publisher) => {
@@ -88,7 +88,7 @@ const DataManagement = () => {
   };
 
   const handleDeletePublisher = (id: number) => {
-    setPublishers(publishers.filter((p) => p.id !== id));
+    setPublishersData(publishersData.filter((p) => p.id !== id));
   };
 
   return (
