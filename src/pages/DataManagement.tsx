@@ -28,9 +28,9 @@ const DataManagement = () => {
   const [activeTab, setActiveTab] = useState<
     "games" | "developers" | "publishers"
   >("games");
-  const [games, setGames] = useState(mockGames);
-  const [developers, setDevelopers] = useState(mockDevelopers);
-  const [publishers, setPublishers] = useState(mockPublishers);
+  const [gamesData, setGamesData] = useState(games);
+  const [developersData, setDevelopersData] = useState(developers);
+  const [publishersData, setPublishersData] = useState(publishers);
   const [editingGame, setEditingGame] = useState<Game | null>(null);
   const [editingDeveloper, setEditingDeveloper] = useState<Developer | null>(
     null,
@@ -40,11 +40,17 @@ const DataManagement = () => {
   );
 
   const handleSaveGame = (game: Game) => {
-    const index = games.findIndex((g) => g.id === game.id);
+    const index = gamesData.findIndex((g) => g.id === game.id);
     if (index !== -1) {
-      games[index] = game;
+      const newGames = [...gamesData];
+      newGames[index] = game;
+      setGamesData(newGames);
     } else {
-      games.push({ ...game, id: Math.max(...games.map((g) => g.id)) + 1 });
+      const newGame = {
+        ...game,
+        id: Math.max(...gamesData.map((g) => g.id)) + 1,
+      };
+      setGamesData([...gamesData, newGame]);
     }
     setEditingGame(null);
   };
