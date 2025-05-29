@@ -1,10 +1,55 @@
+import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox";
 import Icon from "@/components/ui/icon";
 import { useNavigate } from "react-router-dom";
+import {
+  games,
+  developers,
+  publishers,
+  Game,
+  Developer,
+  Publisher,
+} from "@/data/gameData";
 
 const DataManagement = () => {
   const navigate = useNavigate();
+  const [activeTab, setActiveTab] = useState<
+    "games" | "developers" | "publishers"
+  >("games");
+  const [editingGame, setEditingGame] = useState<Game | null>(null);
+  const [editingDeveloper, setEditingDeveloper] = useState<Developer | null>(
+    null,
+  );
+  const [editingPublisher, setEditingPublisher] = useState<Publisher | null>(
+    null,
+  );
+
+  const handleSaveGame = (game: Game) => {
+    const index = games.findIndex((g) => g.id === game.id);
+    if (index !== -1) {
+      games[index] = game;
+    } else {
+      games.push({ ...game, id: Math.max(...games.map((g) => g.id)) + 1 });
+    }
+    setEditingGame(null);
+  };
+
+  const handleDeleteGame = (id: number) => {
+    const index = games.findIndex((g) => g.id === id);
+    if (index !== -1) games.splice(index, 1);
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
@@ -23,30 +68,196 @@ const DataManagement = () => {
           </div>
         </div>
 
-        <Card className="max-w-4xl mx-auto">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Icon name="Edit3" size={24} className="text-blue-600" />
-              Форма редактирования
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-center py-12">
-              <Icon
-                name="Construction"
-                size={64}
-                className="text-gray-400 mx-auto mb-4"
-              />
-              <h3 className="text-xl font-semibold text-gray-600 mb-2">
-                В разработке
-              </h3>
-              <p className="text-gray-500">
-                Форма ввода и редактирования данных будет готова в следующем
-                обновлении
-              </p>
+        <div className="max-w-6xl mx-auto">
+          <div className="flex gap-2 mb-6">
+            <Button
+              onClick={() => setActiveTab("games")}
+              variant={activeTab === "games" ? "default" : "outline"}
+            >
+              Игры ({games.length})
+            </Button>
+            <Button
+              onClick={() => setActiveTab("developers")}
+              variant={activeTab === "developers" ? "default" : "outline"}
+            >
+              Разработчики ({developers.length})
+            </Button>
+            <Button
+              onClick={() => setActiveTab("publishers")}
+              variant={activeTab === "publishers" ? "default" : "outline"}
+            >
+              Издатели ({publishers.length})
+            </Button>
+          </div>
+
+          {activeTab === "games" && (
+            <div className="grid gap-4">
+              <Button
+                onClick={() =>
+                  setEditingGame({
+                    id: 0,
+                    title: "",
+                    description: "",
+                    developerId: 1,
+                    publisherId: 1,
+                    year: 2024,
+                    genre: "",
+                    rating: 0,
+                    userRating: 0,
+                    price: 0,
+                    link: "",
+                    crossPlatform: false,
+                    multiplayer: false,
+                  })
+                }
+              >
+                <Icon name="Plus" size={16} className="mr-2" />
+                Добавить игру
+              </Button>
+
+              <div className="grid gap-2 max-h-96 overflow-y-auto">
+                {games.map((game) => (
+                  <Card key={game.id} className="p-4">
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <h3 className="font-semibold">{game.title}</h3>
+                        <p className="text-sm text-gray-600">
+                          {game.genre} • {game.year} • {game.price}₽
+                        </p>
+                      </div>
+                      <div className="flex gap-2">
+                        <Button size="sm" onClick={() => setEditingGame(game)}>
+                          <Icon name="Edit" size={14} />
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="destructive"
+                          onClick={() => handleDeleteGame(game.id)}
+                        >
+                          <Icon name="Trash2" size={14} />
+                        </Button>
+                      </div>
+                    </div>
+                  </Card>
+                ))}
+              </div>
             </div>
-          </CardContent>
-        </Card>
+          )}
+        </div>
+
+        {editingGame && (
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
+            <Card className="w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+              <CardHeader>
+                <CardTitle>Редактирование игры</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <Label>Название</Label>
+                    <Input
+                      value={editingGame.title}
+                      onChange={(e) =>
+                        setEditingGame({
+                          ...editingGame,
+                          title: e.target.value,
+                        })
+                      }
+                    />
+                  </div>
+                  <div>
+                    <Label>Жанр</Label>
+                    <Input
+                      value={editingGame.genre}
+                      onChange={(e) =>
+                        setEditingGame({
+                          ...editingGame,
+                          genre: e.target.value,
+                        })
+                      }
+                    />
+                  </div>
+                  <div>
+                    <Label>Год</Label>
+                    <Input
+                      type="number"
+                      value={editingGame.year}
+                      onChange={(e) =>
+                        setEditingGame({
+                          ...editingGame,
+                          year: +e.target.value,
+                        })
+                      }
+                    />
+                  </div>
+                  <div>
+                    <Label>Цена (₽)</Label>
+                    <Input
+                      type="number"
+                      value={editingGame.price}
+                      onChange={(e) =>
+                        setEditingGame({
+                          ...editingGame,
+                          price: +e.target.value,
+                        })
+                      }
+                    />
+                  </div>
+                </div>
+                <div>
+                  <Label>Описание</Label>
+                  <Textarea
+                    value={editingGame.description}
+                    onChange={(e) =>
+                      setEditingGame({
+                        ...editingGame,
+                        description: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+                <div className="flex gap-4">
+                  <div className="flex items-center space-x-2">
+                    <Checkbox
+                      checked={editingGame.crossPlatform}
+                      onCheckedChange={(checked) =>
+                        setEditingGame({
+                          ...editingGame,
+                          crossPlatform: !!checked,
+                        })
+                      }
+                    />
+                    <Label>Кроссплатформенность</Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <Checkbox
+                      checked={editingGame.multiplayer}
+                      onCheckedChange={(checked) =>
+                        setEditingGame({
+                          ...editingGame,
+                          multiplayer: !!checked,
+                        })
+                      }
+                    />
+                    <Label>Мультиплеер</Label>
+                  </div>
+                </div>
+                <div className="flex gap-2">
+                  <Button onClick={() => handleSaveGame(editingGame)}>
+                    <Icon name="Save" size={16} className="mr-2" />
+                    Сохранить
+                  </Button>
+                  <Button
+                    variant="outline"
+                    onClick={() => setEditingGame(null)}
+                  >
+                    Отмена
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        )}
       </div>
     </div>
   );
