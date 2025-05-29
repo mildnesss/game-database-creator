@@ -28,9 +28,6 @@ const DataManagement = () => {
   const [activeTab, setActiveTab] = useState<
     "games" | "developers" | "publishers"
   >("games");
-  const [games, setGames] = useState(mockGames);
-  const [developers, setDevelopers] = useState(mockDevelopers);
-  const [publishers, setPublishers] = useState(mockPublishers);
   const [editingGame, setEditingGame] = useState<Game | null>(null);
   const [editingDeveloper, setEditingDeveloper] = useState<Developer | null>(
     null,
@@ -50,39 +47,8 @@ const DataManagement = () => {
   };
 
   const handleDeleteGame = (id: number) => {
-    setGames(games.filter((g) => g.id !== id));
-  };
-
-  const handleSaveDeveloper = (developer: Developer) => {
-    if (developer.id === 0) {
-      const newId = Math.max(...developers.map((d) => d.id)) + 1;
-      setDevelopers([...developers, { ...developer, id: newId }]);
-    } else {
-      setDevelopers(
-        developers.map((d) => (d.id === developer.id ? developer : d)),
-      );
-    }
-    setEditingDeveloper(null);
-  };
-
-  const handleDeleteDeveloper = (id: number) => {
-    setDevelopers(developers.filter((d) => d.id !== id));
-  };
-
-  const handleSavePublisher = (publisher: Publisher) => {
-    if (publisher.id === 0) {
-      const newId = Math.max(...publishers.map((p) => p.id)) + 1;
-      setPublishers([...publishers, { ...publisher, id: newId }]);
-    } else {
-      setPublishers(
-        publishers.map((p) => (p.id === publisher.id ? publisher : p)),
-      );
-    }
-    setEditingPublisher(null);
-  };
-
-  const handleDeletePublisher = (id: number) => {
-    setPublishers(publishers.filter((p) => p.id !== id));
+    const index = games.findIndex((g) => g.id === id);
+    if (index !== -1) games.splice(index, 1);
   };
 
   return (
@@ -167,102 +133,6 @@ const DataManagement = () => {
                           size="sm"
                           variant="destructive"
                           onClick={() => handleDeleteGame(game.id)}
-                        >
-                          <Icon name="Trash2" size={14} />
-                        </Button>
-                      </div>
-                    </div>
-                  </Card>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {activeTab === "developers" && (
-            <div className="grid gap-4">
-              <Button
-                onClick={() =>
-                  setEditingDeveloper({
-                    id: 0,
-                    name: "",
-                    description: "",
-                    country: "",
-                  })
-                }
-              >
-                <Icon name="Plus" size={16} className="mr-2" />
-                Добавить разработчика
-              </Button>
-
-              <div className="grid gap-2 max-h-96 overflow-y-auto">
-                {developers.map((developer) => (
-                  <Card key={developer.id} className="p-4">
-                    <div className="flex justify-between items-center">
-                      <div>
-                        <h3 className="font-semibold">{developer.name}</h3>
-                        <p className="text-sm text-gray-600">
-                          {developer.country}
-                        </p>
-                      </div>
-                      <div className="flex gap-2">
-                        <Button
-                          size="sm"
-                          onClick={() => setEditingDeveloper(developer)}
-                        >
-                          <Icon name="Edit" size={14} />
-                        </Button>
-                        <Button
-                          size="sm"
-                          variant="destructive"
-                          onClick={() => handleDeleteDeveloper(developer.id)}
-                        >
-                          <Icon name="Trash2" size={14} />
-                        </Button>
-                      </div>
-                    </div>
-                  </Card>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {activeTab === "publishers" && (
-            <div className="grid gap-4">
-              <Button
-                onClick={() =>
-                  setEditingPublisher({
-                    id: 0,
-                    name: "",
-                    description: "",
-                    location: "",
-                  })
-                }
-              >
-                <Icon name="Plus" size={16} className="mr-2" />
-                Добавить издателя
-              </Button>
-
-              <div className="grid gap-2 max-h-96 overflow-y-auto">
-                {publishers.map((publisher) => (
-                  <Card key={publisher.id} className="p-4">
-                    <div className="flex justify-between items-center">
-                      <div>
-                        <h3 className="font-semibold">{publisher.name}</h3>
-                        <p className="text-sm text-gray-600">
-                          {publisher.location}
-                        </p>
-                      </div>
-                      <div className="flex gap-2">
-                        <Button
-                          size="sm"
-                          onClick={() => setEditingPublisher(publisher)}
-                        >
-                          <Icon name="Edit" size={14} />
-                        </Button>
-                        <Button
-                          size="sm"
-                          variant="destructive"
-                          onClick={() => handleDeletePublisher(publisher.id)}
                         >
                           <Icon name="Trash2" size={14} />
                         </Button>
@@ -380,126 +250,6 @@ const DataManagement = () => {
                   <Button
                     variant="outline"
                     onClick={() => setEditingGame(null)}
-                  >
-                    Отмена
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        )}
-
-        {editingDeveloper && (
-          <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-            <Card className="w-full max-w-lg">
-              <CardHeader>
-                <CardTitle>Редактирование разработчика</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div>
-                  <Label>Название</Label>
-                  <Input
-                    value={editingDeveloper.name}
-                    onChange={(e) =>
-                      setEditingDeveloper({
-                        ...editingDeveloper,
-                        name: e.target.value,
-                      })
-                    }
-                  />
-                </div>
-                <div>
-                  <Label>Страна</Label>
-                  <Input
-                    value={editingDeveloper.country}
-                    onChange={(e) =>
-                      setEditingDeveloper({
-                        ...editingDeveloper,
-                        country: e.target.value,
-                      })
-                    }
-                  />
-                </div>
-                <div>
-                  <Label>Описание</Label>
-                  <Textarea
-                    value={editingDeveloper.description}
-                    onChange={(e) =>
-                      setEditingDeveloper({
-                        ...editingDeveloper,
-                        description: e.target.value,
-                      })
-                    }
-                  />
-                </div>
-                <div className="flex gap-2">
-                  <Button onClick={() => handleSaveDeveloper(editingDeveloper)}>
-                    <Icon name="Save" size={16} className="mr-2" />
-                    Сохранить
-                  </Button>
-                  <Button
-                    variant="outline"
-                    onClick={() => setEditingDeveloper(null)}
-                  >
-                    Отмена
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        )}
-
-        {editingPublisher && (
-          <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-            <Card className="w-full max-w-lg">
-              <CardHeader>
-                <CardTitle>Редактирование издателя</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div>
-                  <Label>Название</Label>
-                  <Input
-                    value={editingPublisher.name}
-                    onChange={(e) =>
-                      setEditingPublisher({
-                        ...editingPublisher,
-                        name: e.target.value,
-                      })
-                    }
-                  />
-                </div>
-                <div>
-                  <Label>Местоположение</Label>
-                  <Input
-                    value={editingPublisher.location}
-                    onChange={(e) =>
-                      setEditingPublisher({
-                        ...editingPublisher,
-                        location: e.target.value,
-                      })
-                    }
-                  />
-                </div>
-                <div>
-                  <Label>Описание</Label>
-                  <Textarea
-                    value={editingPublisher.description}
-                    onChange={(e) =>
-                      setEditingPublisher({
-                        ...editingPublisher,
-                        description: e.target.value,
-                      })
-                    }
-                  />
-                </div>
-                <div className="flex gap-2">
-                  <Button onClick={() => handleSavePublisher(editingPublisher)}>
-                    <Icon name="Save" size={16} className="mr-2" />
-                    Сохранить
-                  </Button>
-                  <Button
-                    variant="outline"
-                    onClick={() => setEditingPublisher(null)}
                   >
                     Отмена
                   </Button>
