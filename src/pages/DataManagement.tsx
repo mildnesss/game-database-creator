@@ -28,9 +28,9 @@ const DataManagement = () => {
   const [activeTab, setActiveTab] = useState<
     "games" | "developers" | "publishers"
   >("games");
-  const [games, setGames] = useState(games);
-  const [developers, setDevelopers] = useState(developers);
-  const [publishers, setPublishers] = useState(publishers);
+  const [games, setGames] = useState(mockGames);
+  const [developers, setDevelopers] = useState(mockDevelopers);
+  const [publishers, setPublishers] = useState(mockPublishers);
   const [editingGame, setEditingGame] = useState<Game | null>(null);
   const [editingDeveloper, setEditingDeveloper] = useState<Developer | null>(
     null,
