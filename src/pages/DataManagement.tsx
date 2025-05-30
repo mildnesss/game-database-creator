@@ -61,15 +61,15 @@ const DataManagement = () => {
 
   const handleSaveDeveloper = (developer: Developer) => {
     if (developer.id === 0) {
-      const newId = Math.max(...developers.map((d) => d.id)) + 1;
-      setDevelopers([...developers, { ...developer, id: newId }]);
+        const newId = Math.max(...developersData.map((d) => d.id)) + 1; // Используйте developersData вместо developers
+        setDevelopersData([...developersData, { ...developer, id: newId }]); // Используйте setDevelopersData
     } else {
-      setDevelopers(
-        developers.map((d) => (d.id === developer.id ? developer : d)),
-      );
+        setDevelopersData(
+            developersData.map((d) => (d.id === developer.id ? developer : d)) // Используйте developersData вместо developers
+        );
     }
     setEditingDeveloper(null);
-  };
+};
 
   const handleDeleteDeveloper = (id: number) => {
     setDevelopersData(developersData.filter((d) => d.id !== id));
@@ -77,15 +77,15 @@ const DataManagement = () => {
 
   const handleSavePublisher = (publisher: Publisher) => {
     if (publisher.id === 0) {
-      const newId = Math.max(...publishers.map((p) => p.id)) + 1;
-      setPublishers([...publishers, { ...publisher, id: newId }]);
+        const newId = Math.max(...publishersData.map((p) => p.id)) + 1; // Используйте publishersData вместо publishers
+        setPublishersData([...publishersData, { ...publisher, id: newId }]); // Используйте setPublishersData
     } else {
-      setPublishers(
-        publishers.map((p) => (p.id === publisher.id ? publisher : p)),
-      );
+        setPublishersData(
+            publishersData.map((p) => (p.id === publisher.id ? publisher : p)) // Используйте publishersData вместо publishers
+        );
     }
     setEditingPublisher(null);
-  };
+};
 
   const handleDeletePublisher = (id: number) => {
     setPublishersData(publishersData.filter((p) => p.id !== id));
