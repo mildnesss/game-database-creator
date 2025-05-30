@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/select";
 import Icon from "@/components/ui/icon";
 import { useNavigate } from "react-router-dom";
-import { useGameData } from "@/context/GameDataContext";
+import { useGameData } from "@/contexts/GameDataContext";
 
 const PriceSearch = () => {
   const navigate = useNavigate();

@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import Icon from "@/components/ui/icon";
 import { useNavigate } from "react-router-dom";
 import CascadeSearch from "@/components/CascadeSearch";
-import { useGameData } from "@/context/GameDataContext";
+import { useGameData } from "@/contexts/GameDataContext";
 
 const GenreYearSearch = () => {
   const navigate = useNavigate();

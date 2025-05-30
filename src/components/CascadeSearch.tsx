@@ -10,6 +10,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Icon from "@/components/ui/icon";
+import { useGameData } from "@/contexts/GameDataContext";
 import { Game } from "@/data/gameData";
 
 interface CascadeSearchProps {
