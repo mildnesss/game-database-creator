@@ -41,7 +41,7 @@ const DatabaseInfo = () => {
                   <h4 className="font-semibold text-gray-800">
                     Учебное заведение:
                   </h4>
-                  <p className="text-gray-600">[Название учебного заведения]</p>
+                  <p className="text-gray-600">ИАТЭ НИЯУ МИФИ</p>
                 </div>
                 <div>
                   <h4 className="font-semibold text-gray-800">Курс/группа:</h4>
