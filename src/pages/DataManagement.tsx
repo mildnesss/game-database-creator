@@ -48,7 +48,7 @@ const DataManagement = () => {
     } else {
       const newGame = {
         ...game,
-        id: Math.max(...gamesData.map((g) => g.id)) + 1,
+        id: Math.max(0, ...gamesData.map((g) => g.id)) + 1,
       };
       setGamesData([...gamesData, newGame]);
     }
@@ -61,15 +61,15 @@ const DataManagement = () => {
 
   const handleSaveDeveloper = (developer: Developer) => {
     if (developer.id === 0) {
-        const newId = Math.max(...developersData.map((d) => d.id)) + 1; // Используйте developersData вместо developers
-        setDevelopersData([...developersData, { ...developer, id: newId }]); // Используйте setDevelopersData
+      const newId = Math.max(0, ...developersData.map((d) => d.id)) + 1;
+      setDevelopersData([...developersData, { ...developer, id: newId }]);
     } else {
-        setDevelopersData(
-            developersData.map((d) => (d.id === developer.id ? developer : d)) // Используйте developersData вместо developers
-        );
+      setDevelopersData(
+        developersData.map((d) => (d.id === developer.id ? developer : d))
+      );
     }
     setEditingDeveloper(null);
-};
+  };
 
   const handleDeleteDeveloper = (id: number) => {
     setDevelopersData(developersData.filter((d) => d.id !== id));
@@ -77,15 +77,15 @@ const DataManagement = () => {
 
   const handleSavePublisher = (publisher: Publisher) => {
     if (publisher.id === 0) {
-        const newId = Math.max(...publishersData.map((p) => p.id)) + 1; // Используйте publishersData вместо publishers
-        setPublishersData([...publishersData, { ...publisher, id: newId }]); // Используйте setPublishersData
+      const newId = Math.max(0, ...publishersData.map((p) => p.id)) + 1;
+      setPublishersData([...publishersData, { ...publisher, id: newId }]);
     } else {
-        setPublishersData(
-            publishersData.map((p) => (p.id === publisher.id ? publisher : p)) // Используйте publishersData вместо publishers
-        );
+      setPublishersData(
+        publishersData.map((p) => (p.id === publisher.id ? publisher : p))
+      );
     }
     setEditingPublisher(null);
-};
+  };
 
   const handleDeletePublisher = (id: number) => {
     setPublishersData(publishersData.filter((p) => p.id !== id));
@@ -114,19 +114,19 @@ const DataManagement = () => {
               onClick={() => setActiveTab("games")}
               variant={activeTab === "games" ? "default" : "outline"}
             >
-              Игры ({games.length})
+              Игры ({gamesData.length})
             </Button>
             <Button
               onClick={() => setActiveTab("developers")}
               variant={activeTab === "developers" ? "default" : "outline"}
             >
-              Разработчики ({developers.length})
+              Разработчики ({developersData.length})
             </Button>
             <Button
               onClick={() => setActiveTab("publishers")}
               variant={activeTab === "publishers" ? "default" : "outline"}
             >
-              Издатели ({publishers.length})
+              Издатели ({publishersData.length})
             </Button>
           </div>
 
@@ -156,7 +156,7 @@ const DataManagement = () => {
               </Button>
 
               <div className="grid gap-2 max-h-96 overflow-y-auto">
-                {games.map((game) => (
+                {gamesData.map((game) => (
                   <Card key={game.id} className="p-4">
                     <div className="flex justify-between items-center">
                       <div>
@@ -201,7 +201,7 @@ const DataManagement = () => {
               </Button>
 
               <div className="grid gap-2 max-h-96 overflow-y-auto">
-                {developers.map((developer) => (
+                {developersData.map((developer) => (
                   <Card key={developer.id} className="p-4">
                     <div className="flex justify-between items-center">
                       <div>
@@ -249,7 +249,7 @@ const DataManagement = () => {
               </Button>
 
               <div className="grid gap-2 max-h-96 overflow-y-auto">
-                {publishers.map((publisher) => (
+                {publishersData.map((publisher) => (
                   <Card key={publisher.id} className="p-4">
                     <div className="flex justify-between items-center">
                       <div>
