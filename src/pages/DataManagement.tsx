@@ -105,6 +105,15 @@ const DataManagement = () => {
   const GameEditForm = () => {
     if (!editingGame) return null;
 
+    const {
+      register,
+      handleSubmit,
+      formState: { errors },
+      reset,
+    } = useForm<GameFormData>({
+      defaultValues: editingGame,
+    });
+
     return (
       <div
         key={`publisher-form-${editingPublisher.id || "new"}`}
