@@ -44,7 +44,7 @@ const DatabaseInfo = () => {
                   <p className="text-gray-600">ИАТЭ НИЯУ МИФИ</p>
                 </div>
                 <div>
-                  <h4 className="font-semibold text-gray-800">Курс/группа:</h4>
+                  <h4 className="font-semibold text-gray-800">Группа:</h4>
                   <p className="text-gray-600">[Курс и группа]</p>
                 </div>
               </div>
