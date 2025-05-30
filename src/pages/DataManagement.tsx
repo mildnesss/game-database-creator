@@ -34,6 +34,16 @@ const DataManagement = () => {
     deletePublisher,
   } = useGameData();
 
+  // State variables first
+  const [activeTab, setActiveTab] = useState<
+    "games" | "developers" | "publishers"
+  >("games");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [editingGame, setEditingGame] = useState<Game | null>(null);
+  const [editingDeveloper, setEditingDeveloper] = useState<Developer | null>(
+    null,
+  );
+
   // Data arrays
   const gamesData = games;
   const developersData = developers;
@@ -44,15 +54,6 @@ const DataManagement = () => {
     (game) =>
       game.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       game.genre.toLowerCase().includes(searchTerm.toLowerCase()),
-  );
-
-  const [activeTab, setActiveTab] = useState<
-    "games" | "developers" | "publishers"
-  >("games");
-  const [searchTerm, setSearchTerm] = useState("");
-  const [editingGame, setEditingGame] = useState<Game | null>(null);
-  const [editingDeveloper, setEditingDeveloper] = useState<Developer | null>(
-    null,
   );
   const [editingPublisher, setEditingPublisher] = useState<Publisher | null>(
     null,
