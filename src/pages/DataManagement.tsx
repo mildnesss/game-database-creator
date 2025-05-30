@@ -117,14 +117,14 @@ const DataManagement = () => {
                     id: 0,
                     title: "",
                     description: "",
-                    developerId: 1,
-                    publisherId: 1,
+                    developerId: developersData[0]?.id || 1,
+                    publisherId: publishersData[0]?.id || 1,
                     year: 2024,
                     genre: "",
                     rating: 0,
-                    userRating: 0,
+                                        userRating: 0,
                     price: 0,
-                                        link: "",
+                    link: "",
                     crossPlatform: false,
                     multiplayer: false,
                   })
@@ -158,8 +158,7 @@ const DataManagement = () => {
               </div>
             </div>
           )}
-
-          {/* Таб Разработчики */}
+{/* Таб Разработчики */}
           {activeTab === "developers" && (
             <div className="grid gap-4">
               <Button
@@ -339,7 +338,7 @@ const DataManagement = () => {
                     onChange={(e) => setEditingDeveloper({ ...editingDeveloper, country: e.target.value })}
                   />
                 </div>
-                <div>
+                \<div>
                   <Label>Описание</Label>
                   <Textarea
                     value={editingDeveloper.description}
