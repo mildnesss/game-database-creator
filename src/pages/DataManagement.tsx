@@ -28,16 +28,9 @@ const DataManagement = () => {
   const [activeTab, setActiveTab] = useState<
     "games" | "developers" | "publishers"
   >("games");
-  const [games, setGames] = useState(initialGames);
-  const [developers, setDevelopers] = useState(initialDevelopers);
-  const [publishers, setPublishers] = useState(initialPublishers);
-  const [editingGame, setEditingGame] = useState<Game | null>(null);
-  const [editingDeveloper, setEditingDeveloper] = useState<Developer | null>(
-    null,
-  );
-  const [editingPublisher, setEditingPublisher] = useState<Publisher | null>(
-    null,
-  );
+  const [gamesData, setGamesData] = useState(games);
+  const [developersData, setDevelopersData] = useState(developers);
+  const [publishersData, setPublishersData] = useState(publishers);
   const [editingGame, setEditingGame] = useState<Game | null>(null);
   const [editingDeveloper, setEditingDeveloper] = useState<Developer | null>(
     null,
@@ -47,17 +40,23 @@ const DataManagement = () => {
   );
 
   const handleSaveGame = (game: Game) => {
-    const index = games.findIndex((g) => g.id === game.id);
+    const index = gamesData.findIndex((g) => g.id === game.id);
     if (index !== -1) {
-      games[index] = game;
+      const newGames = [...gamesData];
+      newGames[index] = game;
+      setGamesData(newGames);
     } else {
-      games.push({ ...game, id: Math.max(...games.map((g) => g.id)) + 1 });
+      const newGame = {
+        ...game,
+        id: Math.max(...gamesData.map((g) => g.id)) + 1,
+      };
+      setGamesData([...gamesData, newGame]);
     }
     setEditingGame(null);
   };
 
   const handleDeleteGame = (id: number) => {
-    setGames(games.filter((g) => g.id !== id));
+    setGamesData(gamesData.filter((g) => g.id !== id));
   };
 
   const handleSaveDeveloper = (developer: Developer) => {
@@ -73,7 +72,7 @@ const DataManagement = () => {
   };
 
   const handleDeleteDeveloper = (id: number) => {
-    setDevelopers(developers.filter((d) => d.id !== id));
+    setDevelopersData(developersData.filter((d) => d.id !== id));
   };
 
   const handleSavePublisher = (publisher: Publisher) => {
@@ -89,7 +88,7 @@ const DataManagement = () => {
   };
 
   const handleDeletePublisher = (id: number) => {
-    setPublishers(publishers.filter((p) => p.id !== id));
+    setPublishersData(publishersData.filter((p) => p.id !== id));
   };
 
   return (

@@ -113,21 +113,21 @@ const Index = () => {
         </div>
 
         {/* Footer Stats Preview */}
-        <div className="mt-16 text-center">
-          <div className="inline-flex items-center gap-8 bg-white rounded-xl shadow-lg px-8 py-4">
+        <div className="text-center my-80">
+          <div className="inline-flex items-center gap-8 bg-white rounded-xl shadow-lg py-0 px-0">
             <div className="text-center">
-              <div className="text-2xl font-bold text-purple-600">2,456</div>
-              <div className="text-sm text-gray-500">Игр в БД</div>
+              <div className="text-2xl font-bold text-purple-600"></div>
+              <div className="text-sm text-gray-500"></div>
             </div>
             <div className="w-px h-8 bg-gray-200"></div>
             <div className="text-center">
-              <div className="text-2xl font-bold text-blue-600">148</div>
-              <div className="text-sm text-gray-500">Разработчиков</div>
+              <div className="text-2xl font-bold text-blue-600"></div>
+              <div className="text-sm text-gray-500"></div>
             </div>
             <div className="w-px h-8 bg-gray-200"></div>
             <div className="text-center">
-              <div className="text-2xl font-bold text-green-600">89</div>
-              <div className="text-sm text-gray-500">Издателей</div>
+              <div className="text-2xl font-bold text-green-600"></div>
+              <div className="text-sm text-gray-500"></div>
             </div>
           </div>
         </div>
