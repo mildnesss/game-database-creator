@@ -3,10 +3,11 @@ import { Button } from "@/components/ui/button";
 import Icon from "@/components/ui/icon";
 import { useNavigate } from "react-router-dom";
 import CascadeSearch from "@/components/CascadeSearch";
-import { games } from "@/data/gameData";
+import { useGameData } from "@/context/GameDataContext";
 
 const GenreYearSearch = () => {
   const navigate = useNavigate();
+  const { games } = useGameData();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">

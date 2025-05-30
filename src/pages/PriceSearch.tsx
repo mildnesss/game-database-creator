@@ -10,10 +10,11 @@ import {
 } from "@/components/ui/select";
 import Icon from "@/components/ui/icon";
 import { useNavigate } from "react-router-dom";
-import { games, developers, publishers } from "@/data/gameData";
+import { useGameData } from "@/context/GameDataContext";
 
 const PriceSearch = () => {
   const navigate = useNavigate();
+  const { games, developers, publishers } = useGameData();
   const [priceFrom, setPriceFrom] = useState<string>("");
   const [priceTo, setPriceTo] = useState<string>("");
 

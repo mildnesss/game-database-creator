@@ -3,10 +3,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Icon from "@/components/ui/icon";
 import { useNavigate } from "react-router-dom";
-import { games, developers, publishers } from "@/data/gameData";
+import { useGameData } from "@/context/GameDataContext";
 
 const Statistics = () => {
   const navigate = useNavigate();
+  const { games, developers, publishers } = useGameData();
 
   const stats = useMemo(() => {
     const maxPrice = Math.max(...games.map((g) => g.price));
