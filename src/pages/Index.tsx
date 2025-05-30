@@ -62,12 +62,11 @@ const Index = () => {
           <div className="inline-flex items-center gap-3 mb-4">
             <Icon name="Database" size={40} className="text-purple-600" />
             <h1 className="text-5xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-              GameDB Manager
+              База данных
             </h1>
           </div>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Система управления базой данных игр с расширенными возможностями
-            поиска и аналитики
+            Компьютерные игры
           </p>
         </div>
 
