@@ -122,6 +122,7 @@ const DataManagement = () => {
                   onChange={(e) =>
                     setEditingGame({ ...editingGame, title: e.target.value })
                   }
+                  placeholder="Введите название игры"
                 />
               </div>
               <div>
@@ -131,6 +132,7 @@ const DataManagement = () => {
                   onChange={(e) =>
                     setEditingGame({ ...editingGame, genre: e.target.value })
                   }
+                  placeholder="Введите жанр"
                 />
               </div>
               <div>
@@ -141,6 +143,7 @@ const DataManagement = () => {
                   onChange={(e) =>
                     setEditingGame({ ...editingGame, year: +e.target.value })
                   }
+                  placeholder="2024"
                 />
               </div>
               <div>
@@ -151,6 +154,7 @@ const DataManagement = () => {
                   onChange={(e) =>
                     setEditingGame({ ...editingGame, price: +e.target.value })
                   }
+                  placeholder="1990"
                 />
               </div>
               <div>
@@ -204,6 +208,7 @@ const DataManagement = () => {
                     description: e.target.value,
                   })
                 }
+                placeholder="Описание игры"
               />
             </div>
             <div className="flex gap-4">
