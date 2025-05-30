@@ -35,17 +35,17 @@ const DatabaseInfo = () => {
               <div className="space-y-3">
                 <div>
                   <h4 className="font-semibold text-gray-800">Разработчик:</h4>
-                  <p className="text-gray-600">Гутарева Мария</p>
+                  <p className="text-gray-600">[Имя разработчика]</p>
                 </div>
                 <div>
                   <h4 className="font-semibold text-gray-800">
                     Учебное заведение:
                   </h4>
-                  <p className="text-gray-600">ИАТЭ НИЯУ МИФИ</p>
+                  <p className="text-gray-600">[Название учебного заведения]</p>
                 </div>
                 <div>
-                  <h4 className="font-semibold text-gray-800">Группа:</h4>
-                  <p className="text-gray-600">ИВТ-Б22</p>
+                  <h4 className="font-semibold text-gray-800">Курс/группа:</h4>
+                  <p className="text-gray-600">[Курс и группа]</p>
                 </div>
               </div>
             </CardContent>
