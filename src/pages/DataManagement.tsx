@@ -106,10 +106,7 @@ const DataManagement = () => {
     if (!editingGame) return null;
 
     return (
-      <div
-        key={`publisher-form-${editingPublisher.id || "new"}`}
-        className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50"
-      >
+      <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
         <Card className="w-full max-w-2xl">
           <CardHeader>
             <CardTitle>
@@ -255,10 +252,7 @@ const DataManagement = () => {
     if (!editingDeveloper) return null;
 
     return (
-      <div
-        key={`publisher-form-${editingPublisher.id || "new"}`}
-        className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50"
-      >
+      <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
         <Card className="w-full max-w-md">
           <CardHeader>
             <CardTitle>
@@ -326,10 +320,7 @@ const DataManagement = () => {
     if (!editingPublisher) return null;
 
     return (
-      <div
-        key={`publisher-form-${editingPublisher.id || "new"}`}
-        className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50"
-      >
+      <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
         <Card className="w-full max-w-md">
           <CardHeader>
             <CardTitle>
