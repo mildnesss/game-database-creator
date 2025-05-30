@@ -35,7 +35,7 @@ const DatabaseInfo = () => {
               <div className="space-y-3">
                 <div>
                   <h4 className="font-semibold text-gray-800">Разработчик:</h4>
-                  <p className="text-gray-600">[Имя разработчика]</p>
+                  <p className="text-gray-600">Гутарева Мария</p>
                 </div>
                 <div>
                   <h4 className="font-semibold text-gray-800">
