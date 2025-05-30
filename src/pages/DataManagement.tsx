@@ -46,9 +46,10 @@ const DataManagement = () => {
       newGames[index] = game;
       setGamesData(newGames);
     } else {
+      const newId = gamesData.length > 0 ? Math.max(...gamesData.map((g) => g.id)) + 1 : 1;
       const newGame = {
         ...game,
-        id: Math.max(...gamesData.map((g) => g.id)) + 1,
+        id: newId,
       };
       setGamesData([...gamesData, newGame]);
     }
@@ -61,11 +62,11 @@ const DataManagement = () => {
 
   const handleSaveDeveloper = (developer: Developer) => {
     if (developer.id === 0) {
-      const newId = Math.max(...developers.map((d) => d.id)) + 1;
-      setDevelopers([...developers, { ...developer, id: newId }]);
+      const newId = developersData.length > 0 ? Math.max(...developersData.map((d) => d.id)) + 1 : 1;
+      setDevelopersData([...developersData, { ...developer, id: newId }]);
     } else {
-      setDevelopers(
-        developers.map((d) => (d.id === developer.id ? developer : d)),
+      setDevelopersData(
+        developersData.map((d) => (d.id === developer.id ? developer : d)),
       );
     }
     setEditingDeveloper(null);
@@ -76,12 +77,12 @@ const DataManagement = () => {
   };
 
   const handleSavePublisher = (publisher: Publisher) => {
-    if (publisher.id === 0) {
-      const newId = Math.max(...publishers.map((p) => p.id)) + 1;
-      setPublishers([...publishers, { ...publisher, id: newId }]);
+        if (publisher.id === 0) {
+      const newId = publishersData.length > 0 ? Math.max(...publishersData.map((p) => p.id)) + 1 : 1;
+      setPublishersData([...publishersData, { ...publisher, id: newId }]);
     } else {
-      setPublishers(
-        publishers.map((p) => (p.id === publisher.id ? publisher : p)),
+      setPublishersData(
+        publishersData.map((p) => (p.id === publisher.id ? publisher : p)),
       );
     }
     setEditingPublisher(null);
@@ -114,19 +115,19 @@ const DataManagement = () => {
               onClick={() => setActiveTab("games")}
               variant={activeTab === "games" ? "default" : "outline"}
             >
-              Игры ({games.length})
+              Игры ({gamesData.length})
             </Button>
             <Button
               onClick={() => setActiveTab("developers")}
               variant={activeTab === "developers" ? "default" : "outline"}
             >
-              Разработчики ({developers.length})
+              Разработчики ({developersData.length})
             </Button>
             <Button
               onClick={() => setActiveTab("publishers")}
               variant={activeTab === "publishers" ? "default" : "outline"}
             >
-              Издатели ({publishers.length})
+              Издатели ({publishersData.length})
             </Button>
           </div>
 
@@ -139,7 +140,7 @@ const DataManagement = () => {
                     title: "",
                     description: "",
                     developerId: 1,
-                    publisherId: 1,
+                                        publisherId: 1,
                     year: 2024,
                     genre: "",
                     rating: 0,
@@ -156,7 +157,7 @@ const DataManagement = () => {
               </Button>
 
               <div className="grid gap-2 max-h-96 overflow-y-auto">
-                {games.map((game) => (
+                {gamesData.map((game) => (
                   <Card key={game.id} className="p-4">
                     <div className="flex justify-between items-center">
                       <div>
@@ -174,7 +175,8 @@ const DataManagement = () => {
                           variant="destructive"
                           onClick={() => handleDeleteGame(game.id)}
                         >
-                          <Icon name="Trash2" size={14} />
+                          <Icon name="
+                            Trash2" size={14} />
                         </Button>
                       </div>
                     </div>
@@ -201,7 +203,7 @@ const DataManagement = () => {
               </Button>
 
               <div className="grid gap-2 max-h-96 overflow-y-auto">
-                {developers.map((developer) => (
+                {developersData.map((developer) => (
                   <Card key={developer.id} className="p-4">
                     <div className="flex justify-between items-center">
                       <div>
@@ -249,7 +251,313 @@ const DataManagement = () => {
               </Button>
 
               <div className="grid gap-2 max-h-96 overflow-y-auto">
-                {publishers.map((publisher) => (
+                {publishersData.map((publisher) => (
+                  <Card key={publisher.id} className="p-4">
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <h3 className="font-semibold">{publisher.name}</h3>
+                        <p className="text-sm text-gray-600">
+                          {publisher.location}
+                        </p>
+                      </div>
+                      <div className="flex gap-2">
+                        <Button
+                          size="sm"
+                          onClick={() => setEditingPublisher(publisher)}
+                        >
+                          <Icon name="Edit" size={14} />
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="destructive"
+                          onClick={() => handleDeletePublisher(publisher.id)}
+                        >
+                          <Icon name="Trash2" size={14} />
+                        </Button>
+                      </div>
+                    </div>
+                  </Card>
+                ))}
+              </div>
+            </div>
+          \Trash2" size={14} />
+                        </Button>
+                      </div>
+                    </div>
+                  </Card>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {activeTab === "developers" && (
+            <div className="grid gap-4">
+              <Button
+                onClick={() =>
+                  setEditingDeveloper({
+                    id: 0,
+                    name: "",
+                    description: "",
+                    country: "",
+                  })
+                }
+              >
+                <Icon name="Plus" size={16} className="mr-2" />
+                Добавить разработчика
+              </Button>
+
+              <div className="grid gap-2 max-h-96 overflow-y-auto">
+                {developersData.map((developer) => (
+                  <Card key={developer.id} className="p-4">
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <h3 className="font-semibold">{developer.name}</h3>
+                        <p className="text-sm text-gray-600">
+                          {developer.country}
+                        </p>
+                      </div>
+                      <div className="flex gap-2">
+                        <Button
+                          size="sm"
+                          onClick={() => setEditingDeveloper(developer)}
+                        >
+                          <Icon name="Edit" size={14} />
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="destructive"
+                          onClick={() => handleDeleteDeveloper(developer.id)}
+                        >
+                          <Icon name="Trash2" size={14} />
+                        </Button>
+                      </div>
+                    </div>
+                  </Card>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {activeTab === "publishers" && (
+            <div className="grid gap-4">
+              <Button
+                onClick={() =>
+                  setEditingPublisher({
+                    id: 0,
+                    name: "",
+                    description: "",
+                    location: "",
+                  })
+                }
+              >
+                <Icon name="Plus" size={16} className="mr-2" />
+                Добавить издателя
+              </Button>
+
+              <div className="grid gap-2 max-h-96 overflow-y-auto">
+                {publishersData.map((publisher) => (
+                  <Card key={publisher.id} className="p-4">
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <h3 className="font-semibold">{publisher.name}</h3>
+                        <p className="text-sm text-gray-600">
+                          {publisher.location}
+                        </p>
+                      </div>
+                      <div className="flex gap-2">
+                        <Button
+                          size="sm"
+                          onClick={() => setEditingPublisher(publisher)}
+                        >
+                          <Icon name="Edit" size={14} />
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="destructive"
+                          onClick={() => handleDeletePublisher(publisher.id)}
+                        >
+                          <Icon name="Trash2" size={14} />
+                        </Button>
+                      </div>
+                    </div>
+                  </Card>
+                ))}
+              </div>
+            </div>
+          \if (publisher.id === 0) {
+      const newId = publishersData.length > 0 ? Math.max(...publishersData.map((p) => p.id)) + 1 : 1;
+      setPublishersData([...publishersData, { ...publisher, id: newId }]);
+    } else {
+      setPublishersData(
+        publishersData.map((p) => (p.id === publisher.id ? publisher : p)),
+      );
+    }
+    setEditingPublisher(null);
+  };
+
+  const handleDeletePublisher = (id: number) => {
+    setPublishersData(publishersData.filter((p) => p.id !== id));
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
+      <div className="container mx-auto py-8 px-4">
+        <div className="flex items-center gap-4 mb-8">
+          <Button variant="ghost" onClick={() => navigate("/")} className="p-2">
+            <Icon name="ArrowLeft" size={20} />
+          </Button>
+          <div>
+            <h1 className="text-3xl font-bold text-gray-800">
+              Ввод и редактирование данных
+            </h1>
+            <p className="text-gray-600">
+              Управление играми, разработчиками и издателями
+            </p>
+          </div>
+        </div>
+
+        <div className="max-w-6xl mx-auto">
+          <div className="flex gap-2 mb-6">
+            <Button
+              onClick={() => setActiveTab("games")}
+              variant={activeTab === "games" ? "default" : "outline"}
+            >
+              Игры ({gamesData.length})
+            </Button>
+            <Button
+              onClick={() => setActiveTab("developers")}
+              variant={activeTab === "developers" ? "default" : "outline"}
+            >
+              Разработчики ({developersData.length})
+            </Button>
+            <Button
+              onClick={() => setActiveTab("publishers")}
+              variant={activeTab === "publishers" ? "default" : "outline"}
+            >
+              Издатели ({publishersData.length})
+            </Button>
+          </div>
+
+          {activeTab === "games" && (
+            <div className="grid gap-4">
+              <Button
+                onClick={() =>
+                  setEditingGame({
+                    id: 0,
+                    title: "",
+                    description: "",
+                    developerId: 1,
+                    publisherId: 1,
+                    year: 2024,
+                    genre: "",
+                    rating: 0,
+                    userRating: 0,
+                    price: 0,
+                    link: "",
+                    crossPlatform: false,
+                    multiplayer: false,
+                  })
+                }
+              >
+                <Icon name="Plus" size={16} className="mr-2" />
+                Добавить игру
+              </Button>
+
+              <div className="grid gap-2 max-h-96 overflow-y-auto">
+                {gamesData.map((game) => (
+                  <Card key={game.id} className="p-4">
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <h3 className="font-semibold">{game.title}</h3>
+                        <p className="text-sm text-gray-600">
+                          {game.genre} • {game.year} • {game.price}₽
+                        </p>
+                      </div>
+                      <div className="flex gap-2">
+                        <Button size="sm" onClick={() => setEditingGame(game)}>
+                          <Icon name="Edit" size={14} />
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="destructive"
+                          onClick={() => handleDeleteGame(game.id)}
+                        >
+                          <Icon name="Trash2" size={14} />
+                        </Button>
+                      </div>
+                    </div>
+                  </Card>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {activeTab === "developers" && (
+            <div className="grid gap-4">
+              <Button
+                onClick={() =>
+                  setEditingDeveloper({
+                    id: 0,
+                    name: "",
+                    description: "",
+                    country: "",
+                  })
+                }
+              >
+                <Icon name="Plus" size={16} className="mr-2" />
+                Добавить разработчика
+              </Button>
+
+              <div className="grid gap-2 max-h-96 overflow-y-auto">
+                {developersData.map((developer) => (
+                  <Card key={developer.id} className="p-4">
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <h3 className="font-semibold">{developer.name}</h3>
+                        <p className="text-sm text-gray-600">
+                          {developer.country}
+                        </p>
+                      </div>
+                      <div className="flex gap-2">
+                        <Button
+                          size="sm"
+                          onClick={() => setEditingDeveloper(developer)}
+                        >
+                          <Icon name="Edit" size={14} />
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="destructive"
+                          onClick={() => handleDeleteDeveloper(developer.id)}
+                        >
+                          <Icon name="Trash2" size={14} />
+                        </Button>
+                      </div>
+                    </div>
+                  </Card>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {activeTab === "publishers" && (
+            <div className="grid gap-4">
+              <Button
+                onClick={() =>
+                  setEditingPublisher({
+                    id: 0,
+                    name: "",
+                    description: "",
+                    location: "",
+                  })
+                }
+              >
+                <Icon name="Plus" size={16} className="mr-2" />
+                Добавить издателя
+              </Button>
+
+              <div className="grid gap-2 max-h-96 overflow-y-auto">
+                {publishersData.map((publisher) => (
                   <Card key={publisher.id} className="p-4">
                     <div className="flex justify-between items-center">
                       <div>
@@ -279,7 +587,7 @@ const DataManagement = () => {
               </div>
             </div>
           )}
-        </div>
+          </div>
 
         {editingGame && (
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
@@ -380,7 +688,7 @@ const DataManagement = () => {
                 </div>
                 <div className="flex gap-2">
                   <Button onClick={() => handleSaveGame(editingGame)}>
-                    <Icon name="Save" size={16} className="mr-2" />
+                    <Icon name="Save" size={16} className="mr-2"/>
                     Сохранить
                   </Button>
                   <Button
@@ -520,3 +828,7 @@ const DataManagement = () => {
 };
 
 export default DataManagement;
+
+
+                  
+
