@@ -45,14 +45,15 @@ const DataManagement = () => {
 
   // Сохраняем разработчика
   const handleSaveDeveloper = (developer: Developer) => {
-    if (developer.id === 0) {
-      const newId = developersData.length > 0 ? Math.max(...developersData.map((d) => d.id)) + 1 : 1;
-      setDevelopersData([...developersData, { ...developer, id: newId }]);
-    } else {
-      setDevelopersData(developersData.map((d) => (d.id === developer.id ? developer : d)));
-    }
-    setEditingDeveloper(null);
-  };
+  if (developer.id === 0) {
+    const newId = developersData.length > 0 ? Math.max(...developersData.map((d) => d.id)) + 1 : 1;
+    setDevelopersData([...developersData, { ...developer, id: newId }]);
+  } else {
+    setDevelopersData(developersData.map((d) => (d.id === developer.id ? developer : d)));
+  }
+  setEditingDeveloper(null);
+};
+
 
   const handleDeleteDeveloper = (id: number) => {
     setDevelopersData(developersData.filter((d) => d.id !== id));
