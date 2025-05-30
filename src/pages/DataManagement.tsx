@@ -34,9 +34,22 @@ const DataManagement = () => {
     deletePublisher,
   } = useGameData();
 
+  // Data arrays
+  const gamesData = games;
+  const developersData = developers;
+  const publishersData = publishers;
+
+  // Filtering logic
+  const filteredGames = games.filter(
+    (game) =>
+      game.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      game.genre.toLowerCase().includes(searchTerm.toLowerCase()),
+  );
+
   const [activeTab, setActiveTab] = useState<
     "games" | "developers" | "publishers"
   >("games");
+  const [searchTerm, setSearchTerm] = useState("");
   const [editingGame, setEditingGame] = useState<Game | null>(null);
   const [editingDeveloper, setEditingDeveloper] = useState<Developer | null>(
     null,
