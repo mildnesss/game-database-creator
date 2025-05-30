@@ -2,8 +2,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Icon from "@/components/ui/icon";
 import { useNavigate } from "react-router-dom";
-import CascadeSearch from "@/components/CascadeSearch";
-import { games } from "@/data/gameData";
 
 const GenreYearSearch = () => {
   const navigate = useNavigate();
@@ -25,9 +23,29 @@ const GenreYearSearch = () => {
           </div>
         </div>
 
-        <div className="max-w-6xl mx-auto">
-          <CascadeSearch games={games} />
-        </div>
+        <Card className="max-w-4xl mx-auto">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Icon name="Search" size={24} className="text-purple-600" />
+              Каскадный поиск
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-center py-12">
+              <Icon
+                name="Construction"
+                size={64}
+                className="text-gray-400 mx-auto mb-4"
+              />
+              <h3 className="text-xl font-semibold text-gray-600 mb-2">
+                В разработке
+              </h3>
+              <p className="text-gray-500">
+                Форма синхронного поиска будет готова в следующем обновлении
+              </p>
+            </div>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );

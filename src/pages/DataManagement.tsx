@@ -28,9 +28,16 @@ const DataManagement = () => {
   const [activeTab, setActiveTab] = useState<
     "games" | "developers" | "publishers"
   >("games");
-  const [gamesData, setGamesData] = useState(games);
-  const [developersData, setDevelopersData] = useState(developers);
-  const [publishersData, setPublishersData] = useState(publishers);
+  const [games, setGames] = useState(initialGames);
+  const [developers, setDevelopers] = useState(initialDevelopers);
+  const [publishers, setPublishers] = useState(initialPublishers);
+  const [editingGame, setEditingGame] = useState<Game | null>(null);
+  const [editingDeveloper, setEditingDeveloper] = useState<Developer | null>(
+    null,
+  );
+  const [editingPublisher, setEditingPublisher] = useState<Publisher | null>(
+    null,
+  );
   const [editingGame, setEditingGame] = useState<Game | null>(null);
   const [editingDeveloper, setEditingDeveloper] = useState<Developer | null>(
     null,
@@ -40,17 +47,11 @@ const DataManagement = () => {
   );
 
   const handleSaveGame = (game: Game) => {
-    const index = gamesData.findIndex((g) => g.id === game.id);
+    const index = games.findIndex((g) => g.id === game.id);
     if (index !== -1) {
-      const newGames = [...gamesData];
-      newGames[index] = game;
-      setGamesData(newGames);
+      games[index] = game;
     } else {
-      const newGame = {
-        ...game,
-        id: Math.max(...gamesData.map((g) => g.id)) + 1,
-      };
-      setGamesData([...gamesData, newGame]);
+      games.push({ ...game, id: Math.max(...games.map((g) => g.id)) + 1 });
     }
     setEditingGame(null);
   };
