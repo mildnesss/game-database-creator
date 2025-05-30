@@ -1,34 +1,22 @@
 import React, { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Checkbox } from "@/components/ui/checkbox";
-import Icon from "@/components/ui/icon";
-import { useNavigate } from "react-router-dom";
-import {
-  games,
-  developers,
-  publishers,
-  Game,
-  Developer,
-  Publisher,
-} from "@/data/gameData";
+
+type Game = {
+  id: number;
+  title: string;
+  genre: string;
+  year: number;
+  price: number;
+};
+
+const initialGames: Game[] = [
+  { id: 1, title: "Game 1", genre: "Action", year: 2020, price: 1000 },
+  { id: 2, title: "Game 2", genre: "RPG", year: 2021, price: 1500 },
+];
 
 const DataManagement = () => {
-  const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState<"games" | "developers" | "publishers">("games");
-
-  const [gamesData, setGamesData] = useState<Game[]>(games);
-  const [developersData, setDevelopersData] = useState<Developer[]>(developers);
-  const [publishersData, setPublishersData] = useState<Publisher[]>(publishers);
-
+  const [gamesData, setGamesData] = useState<Game[]>(initialGames);
   const [editingGame, setEditingGame] = useState<Game | null>(null);
-  const [editingDeveloper, setEditingDeveloper] = useState<Developer | null>(null);
-  const [editingPublisher, setEditingPublisher] = useState<Publisher | null>(null);
 
-  // Сохраняем игру (обновляем или добавляем)
   const handleSaveGame = (game: Game) => {
     if (game.id === 0) {
       const newId = gamesData.length > 0 ? Math.max(...gamesData.map((g) => g.id)) + 1 : 1;
@@ -43,366 +31,53 @@ const DataManagement = () => {
     setGamesData(gamesData.filter((g) => g.id !== id));
   };
 
-  // Сохраняем разработчика
-  const handleSaveDeveloper = (developer: Developer) => {
-  if (developer.id === 0) {
-    const newId = developersData.length > 0 ? Math.max(...developersData.map((d) => d.id)) + 1 : 1;
-    setDevelopersData([...developersData, { ...developer, id: newId }]);
-  } else {
-    setDevelopersData(developersData.map((d) => (d.id === developer.id ? developer : d)));
-  }
-  setEditingDeveloper(null);
-};
-
-
-  const handleDeleteDeveloper = (id: number) => {
-    setDevelopersData(developersData.filter((d) => d.id !== id));
-  };
-
-  // Сохраняем издателя
-  const handleSavePublisher = (publisher: Publisher) => {
-    if (publisher.id === 0) {
-      const newId = publishersData.length > 0 ? Math.max(...publishersData.map((p) => p.id)) + 1 : 1;
-      setPublishersData([...publishersData, { ...publisher, id: newId }]);
-    } else {
-      setPublishersData(publishersData.map((p) => (p.id === publisher.id ? publisher : p)));
-    }
-    setEditingPublisher(null);
-  };
-
-  const handleDeletePublisher = (id: number) => {
-    setPublishersData(publishersData.filter((p) => p.id !== id));
-  };
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
-      <div className="container mx-auto py-8 px-4">
-        <div className="flex items-center gap-4 mb-8">
-          <Button variant="ghost" onClick={() => navigate("/")} className="p-2">
-            <Icon name="ArrowLeft" size={20} />
-          </Button>
-          <div>
-            <h1 className="text-3xl font-bold text-gray-800">Ввод и редактирование данных</h1>
-            <p className="text-gray-600">Управление играми, разработчиками и издателями</p>
-          </div>
+    <div>
+      <button onClick={() => setEditingGame({ id: 0, title: "", genre: "", year: 2025, price: 0 })}>
+        Добавить игру
+      </button>
+      <ul>
+        {gamesData.map((game) => (
+          <li key={game.id}>
+            {game.title} ({game.genre}, {game.year}) - {game.price}₽
+            <button onClick={() => setEditingGame(game)}>Редактировать</button>
+            <button onClick={() => handleDeleteGame(game.id)}>Удалить</button>
+          </li>
+        ))}
+      </ul>
+
+      {editingGame && (
+        <div style={{ border: "1px solid black", padding: "10px", marginTop: "20px" }}>
+          <input
+            type="text"
+            value={editingGame.title}
+            onChange={(e) => setEditingGame({ ...editingGame, title: e.target.value })}
+            placeholder="Название"
+          />
+          <input
+            type="text"
+            value={editingGame.genre}
+            onChange={(e) => setEditingGame({ ...editingGame, genre: e.target.value })}
+            placeholder="Жанр"
+          />
+          <input
+            type="number"
+            value={editingGame.year}
+            onChange={(e) => setEditingGame({ ...editingGame, year: Number(e.target.value) })}
+            placeholder="Год"
+          />
+          <input
+            type="number"
+            value={editingGame.price}
+            onChange={(e) => setEditingGame({ ...editingGame, price: Number(e.target.value) })}
+            placeholder="Цена"
+          />
+          <button onClick={() => handleSaveGame(editingGame)}>Сохранить</button>
+          <button onClick={() => setEditingGame(null)}>Отмена</button>
         </div>
+      )}
 
-        <div className="max-w-6xl mx-auto">
-          <div className="flex gap-2 mb-6">
-            <Button
-              onClick={() => setActiveTab("games")}
-              variant={activeTab === "games" ? "default" : "outline"}
-            >
-              Игры ({gamesData.length})
-            </Button>
-            <Button
-              onClick={() => setActiveTab("developers")}
-              variant={activeTab === "developers" ? "default" : "outline"}
-            >
-              Разработчики ({developersData.length})
-            </Button>
-            <Button
-              onClick={() => setActiveTab("publishers")}
-              variant={activeTab === "publishers" ? "default" : "outline"}
-            >
-              Издатели ({publishersData.length})
-            </Button>
-          </div>
-
-          {/* Таб Игры */}
-          {activeTab === "games" && (
-            <div className="grid gap-4">
-              <Button
-                onClick={() =>
-                  setEditingGame({
-                    id: 0,
-                    title: "",
-                    description: "",
-                    developerId: developersData[0]?.id || 1,
-                    publisherId: publishersData[0]?.id || 1,
-                    year: 2024,
-                    genre: "",
-                    rating: 0,
-                                        userRating: 0,
-                    price: 0,
-                    link: "",
-                    crossPlatform: false,
-                    multiplayer: false,
-                  })
-                }
-              >
-                <Icon name="Plus" size={16} className="mr-2" />
-                Добавить игру
-              </Button>
-
-              <div className="grid gap-2 max-h-96 overflow-y-auto">
-                {gamesData.map((game) => (
-                  <Card key={game.id} className="p-4">
-                    <div className="flex justify-between items-center">
-                      <div>
-                        <h3 className="font-semibold">{game.title}</h3>
-                        <p className="text-sm text-gray-600">
-                          {game.genre} • {game.year} • {game.price}₽
-                        </p>
-                      </div>
-                      <div className="flex gap-2">
-                        <Button size="sm" onClick={() => setEditingGame(game)}>
-                          <Icon name="Edit" size={14} />
-                        </Button>
-                        <Button size="sm" variant="destructive" onClick={() => handleDeleteGame(game.id)}>
-                          <Icon name="Trash2" size={14} />
-                        </Button>
-                      </div>
-                    </div>
-                  </Card>
-                ))}
-              </div>
-            </div>
-          )}
-{/* Таб Разработчики */}
-          {activeTab === "developers" && (
-            <div className="grid gap-4">
-              <Button
-                onClick={() =>
-                  setEditingDeveloper({
-                    id: 0,
-                    name: "",
-                    description: "",
-                    country: "",
-                  })
-                }
-              >
-                <Icon name="Plus" size={16} className="mr-2" />
-                Добавить разработчика
-              </Button>
-
-              <div className="grid gap-2 max-h-96 overflow-y-auto">
-                {developersData.map((developer) => (
-                  <Card key={developer.id} className="p-4">
-                    <div className="flex justify-between items-center">
-                      <div>
-                        <h3 className="font-semibold">{developer.name}</h3>
-                        <p className="text-sm text-gray-600">{developer.country}</p>
-                      </div>
-                      <div className="flex gap-2">
-                        <Button size="sm" onClick={() => setEditingDeveloper(developer)}>
-                          <Icon name="Edit" size={14} />
-                        </Button>
-                        <Button size="sm" variant="destructive" onClick={() => handleDeleteDeveloper(developer.id)}>
-                          <Icon name="Trash2" size={14} />
-                        </Button>
-                      </div>
-                    </div>
-                  </Card>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Таб Издатели */}
-          {activeTab === "publishers" && (
-            <div className="grid gap-4">
-              <Button
-                onClick={() =>
-                  setEditingPublisher({
-                    id: 0,
-                    name: "",
-                    description: "",
-                    location: "",
-                  })
-                }
-              >
-                <Icon name="Plus" size={16} className="mr-2" />
-                Добавить издателя
-              </Button>
-
-              <div className="grid gap-2 max-h-96 overflow-y-auto">
-                {publishersData.map((publisher) => (
-                  <Card key={publisher.id} className="p-4">
-                    <div className="flex justify-between items-center">
-                      <div>
-                        <h3 className="font-semibold">{publisher.name}</h3>
-                        <p className="text-sm text-gray-600">{publisher.location}</p>
-                      </div>
-                      <div className="flex gap-2">
-                        <Button size="sm" onClick={() => setEditingPublisher(publisher)}>
-                          <Icon name="Edit" size={14} />
-                        </Button>
-                        <Button size="sm" variant="destructive" onClick={() => handleDeletePublisher(publisher.id)}>
-                          <Icon name="Trash2" size={14} />
-                        </Button>
-                      </div>
-                    </div>
-                  </Card>
-                ))}
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* Модальное окно редактирования Игры */}
-        {editingGame && (
-          <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-            <Card className="w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-              <CardHeader>
-                <CardTitle>Редактирование игры</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <Label>Название</Label>
-                    <Input
-                      value={editingGame.title}
-                      onChange={(e) => setEditingGame({ ...editingGame, title: e.target.value })}
-                    />
-                  </div>
-                  <div>
-                    <Label>Жанр</Label>
-                    <Input
-                      value={editingGame.genre}
-                      onChange={(e) => setEditingGame({ ...editingGame, genre: e.target.value })}
-                    />
-                  </div>
-                  <div>
-                    <Label>Год</Label>
-                    <Input
-                      type="number"
-                      value={editingGame.year}
-                      onChange={(e) => setEditingGame({ ...editingGame, year: +e.target.value })}
-                    />
-                  </div>
-                  <div>
-                    <Label>Цена (₽)</Label>
-                    <Input
-                      type="number"
-                      value={editingGame.price}
-                      onChange={(e) => setEditingGame({ ...editingGame, price: +e.target.value })}
-                    />
-                  </div>
-                </div>
-                <div>
-                  <Label>Описание</Label>
-                  <Textarea
-                    value={editingGame.description}
-                    onChange={(e) => setEditingGame({ ...editingGame, description: e.target.value })}
-                  />
-                </div>
-                <div className="flex gap-4">
-                  <div className="flex items-center space-x-2">
-                    <Checkbox
-                      checked={editingGame.crossPlatform}
-                      onCheckedChange={(checked) => setEditingGame({ ...editingGame, crossPlatform: !!checked })}
-                    />
-                    <Label>Кроссплатформенность</Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <Checkbox
-                      checked={editingGame.multiplayer}
-                      onCheckedChange={(checked) => setEditingGame({ ...editingGame, multiplayer: !!checked })}
-                    />
-                    <Label>Мультиплеер</Label>
-                  </div>
-                </div>
-                <div className="flex gap-2">
-                  <Button onClick={() => handleSaveGame(editingGame)}>
-                    <Icon name="Save" size={16} className="mr-2" />
-                    Сохранить
-                  </Button>
-                  <Button variant="outline" onClick={() => setEditingGame(null)}>
-                    Отмена
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        )}
-
-        {/* Модальное окно редактирования Разработчика */}
-        {editingDeveloper && (
-          <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-            <Card className="w-full max-w-lg">
-              <CardHeader>
-                <CardTitle>Редактирование разработчика</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div>
-                  <Label>Название</Label>
-                  <Input
-                    value={editingDeveloper.name}
-                    onChange={(e) => setEditingDeveloper({ ...editingDeveloper, name: e.target.value })}
-                  />
-                </div>
-                <div>
-                  <Label>Страна</Label>
-                  <Input
-                    value={editingDeveloper.country}
-                    onChange={(e) => setEditingDeveloper({ ...editingDeveloper, country: e.target.value })}
-                  />
-                </div>
-                \<div>
-                  <Label>Описание</Label>
-                  <Textarea
-                    value={editingDeveloper.description}
-                    onChange={(e) => setEditingDeveloper({ ...editingDeveloper, description: e.target.value })}
-                  />
-                </div>
-                <div className="flex gap-2">
-                  <Button onClick={() => handleSaveDeveloper(editingDeveloper)}>
-                    <Icon name="Save" size={16} className="mr-2" />
-                    Сохранить
-                  </Button>
-                  <Button variant="outline" onClick={() => setEditingDeveloper(null)}>
-                    Отмена
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        )}
-
-        {/* Модальное окно редактирования Издателя */}
-        {editingPublisher && (
-          <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-            <Card className="w-full max-w-lg">
-              <CardHeader>
-                <CardTitle>Редактирование издателя</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div>
-                  <Label>Название</Label>
-                  <Input
-                    value={editingPublisher.name}
-                    onChange={(e) => setEditingPublisher({ ...editingPublisher, name: e.target.value })}
-                  />
-                </div>
-                <div>
-                  <Label>Местоположение</Label>
-                  <Input
-                    value={editingPublisher.location}
-                    onChange={(e) => setEditingPublisher({ ...editingPublisher, location: e.target.value })}
-                  />
-                </div>
-                <div>
-                  <Label>Описание</Label>
-                  <Textarea
-                    value={editingPublisher.description}
-                    onChange={(e) => setEditingPublisher({ ...editingPublisher, description: e.target.value })}
-                  />
-                </div>
-                <div className="flex gap-2">
-                  <Button onClick={() => handleSavePublisher(editingPublisher)}>
-                    <Icon name="Save" size={16} className="mr-2" />
-                    Сохранить
-                  </Button>
-                  <Button variant="outline" onClick={() => setEditingPublisher(null)}>
-                    Отмена
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        )}
-      </div>
+      <pre>{JSON.stringify(gamesData, null, 2)}</pre>
     </div>
   );
 };
